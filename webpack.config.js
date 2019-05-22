@@ -1,35 +1,159 @@
-module.exports = {
-  entry: "./src/index.tsx",
-  output: {
-    filename: "bundle.js",
-    path: __dirname + "/frontend"
-  },
+const webpack = require("webpack");
+const path = require("path");
+const autoprefixer = require("autoprefixer");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const ImageminPlugin = require('imagemin-webpack-plugin').default;
+const TerserJSPlugin = require('terser-webpack-plugin');
+const Config = require("./config");
+const {MODE, SERVER, TEST} = process.env;
+const IsDevelopment = MODE === "development";
 
-  // Enable sourcemaps for debugging webpack's output.
-  devtool: "source-map",
-  mode: 'development',
 
-  resolve: {
-    // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: [".ts", ".tsx", ".js", ".json"]
-  },
 
-  module: {
-    rules: [
-      // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
-      { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
 
-      // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-      { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
+const webpackConfig = {
+  entry: {
+    build: [
+      "webpack/hot/only-dev-server",
+      `webpack-dev-server/client?http://${Config.ip}:${Config.port}`,
+      path.resolve(__dirname, "./src/index.tsx"),
     ]
   },
-
-  // When importing a module whose path matches one of the following, just
-  // assume a corresponding global variable exists and use that instead.
-  // This is important because it allows us to avoid bundling all of our
-  // dependencies, which allows browsers to cache those libraries between builds.
+  output: {
+    path: __dirname,
+    filename: "static/js/[name].[hash:8].js",
+    chunkFilename: 'static/js/[name].[hash:8].js',
+    publicPath: "/"
+  },
+  mode: MODE,
+  resolve: {
+    extensions: [".ts", ".tsx", ".js", ".json"]
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        loader: [
+          "awesome-typescript-loader",
+          "babel-loader"
+        ],
+      },
+      {
+        enforce: "pre",
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: [
+          "source-map-loader",
+          "babel-loader"
+        ],
+      },
+      {
+        test: /\.s?css$/,
+        include: [
+          path.resolve(__dirname, "src"),
+          path.resolve(__dirname, "node_modules/antd")
+        ],
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: IsDevelopment,
+              // reloadAll: true,
+            },
+          },
+          "css-loader",
+          "sass-loader",
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: function () {
+                return [
+                  autoprefixer
+                ];
+              }
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(woff|svg|ttf|eot|woff2)(\?.*)?$/,
+        loader: 'url-loader',
+        exclude: /node_modules/,
+        query: {
+          limit: 5000,
+          name: "static/font/[name].[hash:8].[ext]"
+        }
+      },
+      {
+        test: /\.(png|jpg|gif|ico)$/,
+        loader: 'url-loader',
+        exclude: /node_modules/,
+        query: {
+          limit: 5000,
+          name: "static/image/[name].[hash:8].[ext]"
+        }
+      }
+    ]
+  },
+  devServer: {
+    host: Config.ip,
+    port: Config.port,
+    proxy: Config.proxy.map(item => (
+      {
+        context: item.path,
+        target: item.target,
+        changeOrigin: true,
+        secure: false
+      }
+    ))
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "static/css/[name].[hash].css",
+      chunkFilename: 'static/css/[id].[hash].css',
+    }),
+    new HtmlWebpackPlugin({
+      filename: "index.html",
+      favicon: "./src/assets/kszitt.ico",
+      inject: true,
+      template: "index.html",
+      react: `https://unpkg.com/react@16/umd/react.${IsDevelopment ? "development" : "production.min"}.js`,
+      reactDom: `https://unpkg.com/react-dom@16/umd/react-dom.${IsDevelopment ? "development" : "production.min"}.js`,
+      minify:  IsDevelopment ? false : {
+        removeComments: true,
+        collapseWhitespace: true,
+        minifyJS: true,
+        minifyCSS: true
+      },
+      hash: false
+    }),
+    new ImageminPlugin({
+      disable: !IsDevelopment,
+      pngquant: {
+        quality: '50-60'
+      }
+    })
+  ],
   externals: {
     "react": "React",
     "react-dom": "ReactDOM"
   }
 };
+
+if(!IsDevelopment){
+  if(!SERVER) webpackConfig.entry.build.splice(0, 2);
+  webpackConfig.output.path = path.resolve(__dirname, 'frontend');
+  webpackConfig.output.publicPath = SERVER ? "/" : (TEST ? "./" : "/frontend/");
+  if(!SERVER) webpackConfig.plugins.splice(0, 1);
+  webpackConfig.optimization = {
+    minimizer: [
+      new TerserJSPlugin(),
+      new OptimizeCSSAssetsPlugin()
+    ],
+  }
+}
+
+module.exports = webpackConfig;

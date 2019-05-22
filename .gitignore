@@ -4,4 +4,3 @@
 *.DS_Store
 /frontend
 /npm-debug.log
-/package-lock.json
