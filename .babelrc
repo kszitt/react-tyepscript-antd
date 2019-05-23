@@ -5,11 +5,9 @@
     "@babel/preset-react"
   ],
   "plugins": [
-    [
-      "import",
-      {
+    ["import", {
         "libraryName": "antd",
-        "style": "css"
+        "style": true
       }
     ]
   ]

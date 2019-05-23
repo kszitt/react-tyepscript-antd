@@ -2,15 +2,41 @@ const webpack = require("webpack");
 const path = require("path");
 const autoprefixer = require("autoprefixer");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const ImageminPlugin = require('imagemin-webpack-plugin').default;
-const TerserJSPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const ImageminPlugin = require("imagemin-webpack-plugin").default;
+const TerserJSPlugin = require("terser-webpack-plugin");
 const Config = require("./config");
 const {MODE, SERVER, TEST} = process.env;
 const IsDevelopment = MODE === "development";
 
 
+const CssExtractLoader = {
+  loader: MiniCssExtractPlugin.loader,
+  options: {
+    hmr: IsDevelopment,
+    // reloadAll: true,
+  }
+};
+
+const PostcssLoader = {
+  loader: "postcss-loader",
+  options: {
+    plugins: function () {
+      return [
+        autoprefixer
+      ];
+    }
+  }
+};
+
+const LessLoader = {
+  loader: "less-loader",
+  options: {
+    javascriptEnabled: true,
+    // modifyVars: <color> // antd 自定义主题颜色
+  }
+};
 
 
 const webpackConfig = {
@@ -24,7 +50,7 @@ const webpackConfig = {
   output: {
     path: __dirname,
     filename: "static/js/[name].[hash:8].js",
-    chunkFilename: 'static/js/[name].[hash:8].js',
+    chunkFilename: "static/js/[name].[hash:8].js",
     publicPath: "/"
   },
   mode: MODE,
@@ -36,7 +62,6 @@ const webpackConfig = {
       {
         test: /\.tsx?$/,
         loader: [
-          "awesome-typescript-loader",
           "babel-loader"
         ],
       },
@@ -45,41 +70,49 @@ const webpackConfig = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: [
-          "source-map-loader",
-          "babel-loader"
+          "source-map-loader"
         ],
       },
       {
-        test: /\.s?css$/,
+        test: /\.css$/,
         include: [
           path.resolve(__dirname, "src"),
           path.resolve(__dirname, "node_modules/antd")
         ],
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: IsDevelopment,
-              // reloadAll: true,
-            },
-          },
+          CssExtractLoader,
           "css-loader",
-          "sass-loader",
-          {
-            loader: 'postcss-loader',
-            options: {
-              plugins: function () {
-                return [
-                  autoprefixer
-                ];
-              }
-            }
-          }
+          PostcssLoader,
+        ]
+      },
+      {
+        test: /\.scss$/,
+        include: [
+          path.resolve(__dirname, "src"),
+        ],
+        use: [
+          CssExtractLoader,
+          "css-loader",
+          PostcssLoader,
+          "sass-loader"
+        ]
+      },
+      {
+        test: /\.less$/,
+        include: [
+          path.resolve(__dirname, "src"),
+          path.resolve(__dirname, "node_modules/antd")
+        ],
+        use: [
+          CssExtractLoader,
+          "css-loader",
+          PostcssLoader,
+          LessLoader
         ]
       },
       {
         test: /\.(woff|svg|ttf|eot|woff2)(\?.*)?$/,
-        loader: 'url-loader',
+        loader: "url-loader",
         exclude: /node_modules/,
         query: {
           limit: 5000,
@@ -88,7 +121,7 @@ const webpackConfig = {
       },
       {
         test: /\.(png|jpg|gif|ico)$/,
-        loader: 'url-loader',
+        loader: "url-loader",
         exclude: /node_modules/,
         query: {
           limit: 5000,
@@ -113,7 +146,7 @@ const webpackConfig = {
     new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
       filename: "static/css/[name].[hash].css",
-      chunkFilename: 'static/css/[id].[hash].css',
+      chunkFilename: "static/css/[id].[hash].css",
     }),
     new HtmlWebpackPlugin({
       filename: "index.html",
@@ -133,7 +166,7 @@ const webpackConfig = {
     new ImageminPlugin({
       disable: !IsDevelopment,
       pngquant: {
-        quality: '50-60'
+        quality: "50-60"
       }
     })
   ],
@@ -145,7 +178,7 @@ const webpackConfig = {
 
 if(!IsDevelopment){
   if(!SERVER) webpackConfig.entry.build.splice(0, 2);
-  webpackConfig.output.path = path.resolve(__dirname, 'frontend');
+  webpackConfig.output.path = path.resolve(__dirname, "frontend");
   webpackConfig.output.publicPath = SERVER ? "/" : (TEST ? "./" : "/frontend/");
   if(!SERVER) webpackConfig.plugins.splice(0, 1);
   webpackConfig.optimization = {
