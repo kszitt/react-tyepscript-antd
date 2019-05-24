@@ -9,6 +9,7 @@ const TerserJSPlugin = require("terser-webpack-plugin");
 const Config = require("./config");
 const {MODE, SERVER, TEST} = process.env;
 const IsDevelopment = MODE === "development";
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 
 const CssExtractLoader = {
@@ -55,22 +56,17 @@ const webpackConfig = {
   },
   mode: MODE,
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".json"]
+    extensions: [".ts", ".tsx", ".js", ".json"],
+    plugins: [
+      new TsconfigPathsPlugin()
+    ]
   },
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
-        loader: [
+        test: /\.j|tsx?$/,
+        use: [
           "babel-loader"
-        ],
-      },
-      {
-        enforce: "pre",
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: [
-          "source-map-loader"
         ],
       },
       {
@@ -133,6 +129,10 @@ const webpackConfig = {
   devServer: {
     host: Config.ip,
     port: Config.port,
+    historyApiFallback: true,
+    stats: {
+      colors: true
+    },
     proxy: Config.proxy.map(item => (
       {
         context: item.path,
@@ -145,7 +145,7 @@ const webpackConfig = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
-      filename: "static/css/[name].[hash].css",
+      filename: "static/css/style.[hash].css",
       chunkFilename: "static/css/[id].[hash].css",
     }),
     new HtmlWebpackPlugin({

@@ -1,9 +1,15 @@
 {
   "compilerOptions": {
     "outDir": "./frontend/",
-    "sourceMap": true,
     "module": "commonjs",
-    "target": "es2015",
+    "target": "es6",
+    "baseUrl": "./src",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@public/*": ["public/*"],
+      "@http/*": ["http/*"],
+      "@router/*": ["router/*"]
+    },
     "jsx": "react"
   },
   "include": [
