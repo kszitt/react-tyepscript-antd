@@ -69,7 +69,7 @@ class Home extends React.Component<RouteProps, State> {
         <p onClick={() => {this.getCaptcha()}}>GetCaptcha <img src={captcha} alt=""/></p>
         <p onClick={() => {this.getTask()}}>GetTask</p>
         <input type="text" placeholder="登录验证码" onChange={(e) => {this.captchaVal = e.target.value}}/>
-        <p onClick={() => {this.login()}}>登录</p>
+        <p onClick={() => {this.login()}}>快去登录</p>
 
         <ul>
           {
