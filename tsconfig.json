@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "./frontend/",
     "module": "commonjs",
-    "target": "es6",
+    "target": "ESNext",
     "baseUrl": "./src",
     "paths": {
       "@components/*": ["components/*"],

@@ -2,12 +2,12 @@
 
 interface Router {
   path: string;
-  component: any;
+  component(): any;
   exact?: boolean;
 }
 
 
-
+// console.log(import("@components/home/home"));
 
 const Config: Router[] = [
   {

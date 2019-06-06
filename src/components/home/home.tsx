@@ -3,17 +3,21 @@ import {RouteProps} from "@public/interface";
 import {GetCaptcha, GetTask, Login} from "@http/index";
 
 
-interface HomeState {
-  captcha: any;
-  template: object[]
-}
+
 interface TemplateObj {
   id: number;
   value: string;
 }
+interface HomeProps extends RouteProps {
+  captchaVal: string;
+}
+interface HomeState {
+  captcha: string;
+  template: TemplateObj[]
+}
 // interface
 
-class Home extends React.Component<RouteProps, HomeState> {
+class Home extends React.Component<HomeProps, HomeState> {
   constructor(props){
     super(props);
 
@@ -39,7 +43,7 @@ class Home extends React.Component<RouteProps, HomeState> {
     };
 
     let data = await Login(params);
-    console.log(data);
+    // console.log(data);
   }
 
   async getCaptcha(){
@@ -52,6 +56,8 @@ class Home extends React.Component<RouteProps, HomeState> {
 
   async getTask(){
     let data = await GetTask();
+    if(data.code !== 200) return;
+
     let template = data.result;
 
 
@@ -67,14 +73,14 @@ class Home extends React.Component<RouteProps, HomeState> {
       <h1 id="home">
         <p>Home</p>
         <p onClick={() => {this.go()}}>go About</p>
-        <p onClick={() => {this.getCaptcha()}}>GetCaptcha {captcha}</p>
+        <p onClick={() => {this.getCaptcha()}}>GetCaptcha <img src={captcha} alt=""/></p>
         <p onClick={() => {this.getTask()}}>GetTask</p>
+        <input type="text" placeholder="登录验证码" onChange={(e) => {this.captchaVal = e.target.value}}/>
         <p onClick={() => {this.login()}}>登录</p>
-        <input type="text" onChange={(e) => {this.captchaVal = e.target.value}}/>
 
         <ul>
           {
-            template.map((item: any) => (
+            template.map((item: TemplateObj) => (
               <li key={item.id}>
                 {item.value}
               </li>

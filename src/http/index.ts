@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios, {AxiosPromise} from "axios";
+import {message} from "antd"
 
 
 axios.interceptors.request.use(function (config) {
@@ -13,28 +14,37 @@ axios.interceptors.request.use(function (config) {
 
 axios.interceptors.response.use(function (response) {
   if(response.data.code == 401){
-    console.log("未登录！");
+    message.error("未登录！");
     delete axios.defaults.headers.common['Authorization'];
     return;
   }
 
-  return response.data;
+  return response;
 }, function (error) {
   return Promise.reject(error);
 });
 
+interface Result {
+  code: number;
+  msg?: string;
+  result?: [];
+}
 
 
 
 // 获取验证码
 export async function GetCaptcha(){
-  return await axios.get('/main/api/v1/captcha');
+  let data = await axios.get<string>('/main/api/v1/captcha');
+  return data.data;
 }
 
 
 // 获取阶段信息
 export async function GetTask() {
-  return await axios.get('/startup/api/v1/project/template');
+  let data = await axios.get<Result>('/startup/api/v1/project/template');
+  console.log("data.code", data.data.code);
+
+  return data.data;
 }
 
 // 登录

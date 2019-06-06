@@ -4,6 +4,10 @@ import {RouteProps} from "@public/interface";
 
 class AboutBundle extends React.Component<RouteProps> {
 
+  componentWillMount(): void {
+
+  }
+
   go(){
      this.props.history.push({
        pathname: '/',
