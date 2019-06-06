@@ -5,8 +5,8 @@ import Loading from "@public/loading/loading"
 
 
 interface Props {
-  path: any;
-  route: RouteProps;
+  component: any;
+  routeProps: RouteProps;
 }
 interface Obj {
   aa: string;
@@ -34,11 +34,11 @@ class GetComponent extends React.Component<Props, State> {
   }
 
   async get(){
-    let {path} = this.props;
+    let {component} = this.props;
 
     try {
       const Component = Loadable({
-        loader: path,
+        loader: component,
         loading: Loading,
       });
       this.setState({
@@ -53,7 +53,7 @@ class GetComponent extends React.Component<Props, State> {
     let {Component} = this.state;
 
     return (
-        <Component {...this.props.route}/>
+        <Component {...this.props.routeProps}/>
     )
   }
 }

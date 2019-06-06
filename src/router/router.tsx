@@ -20,7 +20,7 @@ class Routers extends React.Component {
                        path={item.path}
                        exact={!item.exact}
                        component={() => (
-                         <Component path={item.component} route={props}/>
+                         <Component component={item.component} routeProps={props}/>
                        )}/>
               ))
             }

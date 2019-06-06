@@ -8,26 +8,19 @@ interface TemplateObj {
   id: number;
   value: string;
 }
-interface HomeProps extends RouteProps {
-  captchaVal: string;
-}
-interface HomeState {
+interface State {
   captcha: string;
   template: TemplateObj[]
 }
-// interface
 
-class Home extends React.Component<HomeProps, HomeState> {
-  constructor(props){
-    super(props);
 
-    this.state = {
-      captcha: "",
-      template: []
-    };
-  }
-
-  captchaVal: string;
+class Home extends React.Component<RouteProps, State> {
+  captchaVal: string = "";
+  page: number = 10;
+  state = {
+    captcha: "",
+    template: []
+  };
 
   go(){
     this.props.history.push({
