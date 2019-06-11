@@ -1,6 +1,8 @@
 import * as React from "react";
+import {connect} from 'react-redux'
 import {RouteProps} from "@public/interface";
 import {GetCaptcha, GetTask, Login} from "@http/index";
+import {LoginIn} from "@store/actions/user"
 
 
 
@@ -22,13 +24,22 @@ class Home extends React.Component<RouteProps, State> {
     template: []
   };
 
-  go(){
+  componentWillMount(): void {
+    console.log(this.props);
+    LoginIn({name: "韩晓雨"})(this.props.dispatch);
+    setTimeout(() => {
+      console.log(this.props.User);
+      console.log(this.props.User.name);
+    }, 1000);
+  }
+
+  go(): void {
     this.props.history.push({
       pathname: '/about',
     })
   }
 
-  async login(){
+  async login(): Promise<void> {
     let params = {
       email: "hanxiaoyu@apluslabs.com",
       password: "apl123",
@@ -39,7 +50,7 @@ class Home extends React.Component<RouteProps, State> {
     // console.log(data);
   }
 
-  async getCaptcha(){
+  async getCaptcha(): Promise<void> {
     let captcha = await GetCaptcha();
 
     this.setState({
@@ -47,7 +58,7 @@ class Home extends React.Component<RouteProps, State> {
     })
   }
 
-  async getTask(){
+  async getTask(): Promise<void> {
     let data = await GetTask();
     if(data.code !== 200) return;
 
@@ -85,4 +96,10 @@ class Home extends React.Component<RouteProps, State> {
   }
 }
 
-export default Home;
+function mapStateToProps(state) {
+  return {
+    User: state.User
+  }
+}
+
+export default connect(mapStateToProps)(Home);

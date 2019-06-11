@@ -33,15 +33,15 @@ interface Result {
 
 
 // 获取验证码
-export async function GetCaptcha(){
+export async function GetCaptcha(): Promise<string> {
   let data = await axios.get<string>('/main/api/v1/captcha');
   return data.data;
 }
 
 
 // 获取阶段信息
-export async function GetTask() {
-  let data = await axios.get<Result>('/startup/api/v1/project/template');
+export async function GetTask(): Promise<Result> {
+  let data = await axios.get('/startup/api/v1/project/template');
   console.log("data.code", data.data.code);
 
   return data.data;
@@ -54,6 +54,6 @@ interface LoginParams {
   captcha: string;
   iphone?: number;
 }
-export async function Login(params: LoginParams){
+export async function Login(params: LoginParams) {
   return await axios.post('/startup/api/v1/login', params);
 }

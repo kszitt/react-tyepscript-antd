@@ -8,13 +8,13 @@ class AboutBundle extends React.Component<RouteProps> {
 
   }
 
-  go(){
+  go(): void {
      this.props.history.push({
        pathname: '/',
      })
   }
 
-  render() {
+  render(): React.ReactNode {
     return (
       <h1 id="about">
         <p>About</p>

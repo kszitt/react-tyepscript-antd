@@ -8,7 +8,8 @@
       "@components/*": ["components/*"],
       "@public/*": ["public/*"],
       "@http/*": ["http/*"],
-      "@router/*": ["router/*"]
+      "@router/*": ["router/*"],
+      "@store/*": ["store/*"]
     },
     "jsx": "react"
   },

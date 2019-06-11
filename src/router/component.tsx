@@ -8,12 +8,8 @@ interface Props {
   component: any;
   routeProps: RouteProps;
 }
-interface Obj {
-  aa: string;
-}
 interface State {
   Component: any;
-  aa: Obj[]
 }
 
 
@@ -22,10 +18,7 @@ class GetComponent extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      Component: null,
-      aa: [{
-        aa: "aa"
-      }]
+      Component: null
     }
   }
 
