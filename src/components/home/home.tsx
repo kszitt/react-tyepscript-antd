@@ -1,18 +1,14 @@
 import * as React from "react";
 import {connect} from 'react-redux'
 import {RouteProps} from "@public/interface";
-import {GetCaptcha, GetTask, Login} from "@http/index";
+import {GetCaptcha, GetTask, Login, GetTaskItems} from "@http/home";
 import {LoginIn} from "@store/actions/user"
 
 
 
-interface TemplateObj {
-  id: number;
-  value: string;
-}
 interface State {
   captcha: string;
-  template: TemplateObj[]
+  template: GetTaskItems[]
 }
 
 
@@ -84,7 +80,7 @@ class Home extends React.Component<RouteProps, State> {
 
         <ul>
           {
-            template.map((item: TemplateObj) => (
+            template.map((item) => (
               <li key={item.id}>
                 {item.value}
               </li>
