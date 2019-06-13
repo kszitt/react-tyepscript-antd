@@ -1,14 +1,24 @@
 import * as React from "react";
 
-
-class Loading extends React.Component {
+interface Props {
+  className?: string;
+}
+export class Loading extends React.Component<Props> {
   render() {
+    let {className} = this.props;
+
     return (
-      <h1 id="loading">
-        Loading...
-      </h1>
-    );
+      <div className={"loading " + (className || "")}>
+        <img src={require('./loading.gif')} alt="loading"/>
+      </div>
+    )
   }
 }
 
-export default Loading;
+export class LoadingLine extends React.Component {
+  render() {
+    return (
+      <img className="loadingLine" src={require('./loading.gif')} alt="loading"/>
+    )
+  }
+}

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {RouteProps} from "@public/interface"
 import Loadable from 'react-loadable';
-import Loading from "@public/loading/loading"
+import {Loading} from "@public/loading/loading"
 
 
 interface Props {

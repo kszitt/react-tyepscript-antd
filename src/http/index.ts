@@ -24,14 +24,11 @@ axios.interceptors.response.use(function (response) {
   return Promise.reject(error);
 });
 
-interface Page {
-  items: object[];
+export interface Page {
   page: number;
   per_page: number;
   total: number;
 }
-export interface Result {
+export interface Code {
   code: number;
-  message?: string;
-  result?: object | Page;
 }
