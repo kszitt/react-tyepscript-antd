@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Component, ReactNode, MouseEvent, ChangeEvent } from 'react'
 import {message} from "antd"
 import {LoadingLine} from "@public/loading/loading"
 import {RouteProps} from "@public/interface";
@@ -9,7 +10,7 @@ interface State {
   loadingBtn: string;
 }
 
-class AboutBundle extends React.Component<RouteProps, State> {
+class AboutBundle extends Component<RouteProps, State> {
   state = {
     vip: [],
     loadingBtn: ""
@@ -38,7 +39,24 @@ class AboutBundle extends React.Component<RouteProps, State> {
      })
   }
 
-  render(): React.ReactNode {
+  click(e: MouseEvent<HTMLDivElement>): void {
+    let target = e.target;
+
+    console.log(target);
+    console.log(target.innerHTML);
+    console.log(target.getAttribute("data-type"));
+    for(let k in e.target){
+      console.log(k);
+    }
+  }
+
+  change(e: ChangeEvent<HTMLInputElement>): void {
+    let target = e.target;
+
+    console.log(target.value);
+  }
+
+  render(): ReactNode {
     let {vip, loadingBtn} = this.state;
 
     return (
@@ -46,7 +64,8 @@ class AboutBundle extends React.Component<RouteProps, State> {
         <span>About</span>
         <span onClick={() => {this.go()}}>go Home</span>
         <div className="caption">
-          <p>购买月卡</p>
+          <p data-type="p" onClick={e => {this.click(e)}}>购买月卡</p>
+          <input type="text" onChange={e => {this.change(e)}}/>
         </div>
         <ul className="members">
           {
