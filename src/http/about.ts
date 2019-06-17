@@ -1,16 +1,13 @@
 import axios from "axios";
 import {Code, Page} from "./index"
 
-export interface VipItems {
-  id: number;
-  phase_name: string;
-  name: string;
-}
-interface GetVipResult extends Code {
-  result: Page & {items: VipItems[]}
-}
-export async function GetVip(): Promise<GetVipResult> {
-  let data = await axios.get('/startup/api/v1/project/3550/schedule/3404');
+
+
+export async function GetVip<T, O>() {
+  interface Result extends Code {
+    result: Page & {items: T[], obj: O}
+  }
+  let data = await axios.get<Result>('/startup/api/v1/project/3550/schedule/3404');
 
   return data.data;
 }

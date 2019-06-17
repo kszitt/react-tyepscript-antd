@@ -1,14 +1,17 @@
 import * as React from "react";
 import {connect} from 'react-redux'
 import {RouteProps} from "@public/interface";
-import {GetCaptcha, GetTask, Login, GetTaskItems} from "@http/home";
+import {GetCaptcha, GetTask, Login} from "@http/home";
 import {LoginIn} from "@store/actions/user"
 
 
-
+interface Template {
+  id: number;
+  value: string;
+}
 interface State {
   captcha: string;
-  template: GetTaskItems[]
+  template: Template[]
 }
 
 
@@ -36,18 +39,24 @@ class Home extends React.Component<RouteProps, State> {
   }
 
   async login(): Promise<void> {
+    interface Params {
+      email: string;
+      password: string;
+      captcha: string;
+      iphone?: number;
+    }
     let params = {
       email: "hanxiaoyu@apluslabs.com",
       password: "apl123",
       captcha: this.captchaVal
     };
 
-    let data = await Login(params);
-    // console.log(data);
+    let data = await Login<Params>(params);
+    console.log(data.code);
   }
 
   async getCaptcha(): Promise<void> {
-    let captcha = await GetCaptcha();
+    let captcha = await GetCaptcha<string>();
 
     this.setState({
       captcha
@@ -55,7 +64,7 @@ class Home extends React.Component<RouteProps, State> {
   }
 
   async getTask(): Promise<void> {
-    let data = await GetTask();
+    let data = await GetTask<Template>();
     if(data.code !== 200) return;
 
     let template = data.result;

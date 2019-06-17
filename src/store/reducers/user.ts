@@ -7,7 +7,6 @@ export default function user(state=InitState, action: Action) {
 
   let obj = JSON.parse(JSON.stringify(action));
   delete obj.type;
-  console.log("user ddd");
 
   switch (action.type) {
     // 用户登录
@@ -23,7 +22,6 @@ export default function user(state=InitState, action: Action) {
       return obj;
 
     default:
-      console.log("user init");
       return state;
   }
 }

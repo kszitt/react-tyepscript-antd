@@ -3,8 +3,18 @@ import { Component, ReactNode, MouseEvent, ChangeEvent } from 'react'
 import {message} from "antd"
 import {LoadingLine} from "@public/loading/loading"
 import {RouteProps} from "@public/interface";
-import {GetVip, VipItems} from "@http/about"
+import {GetVip} from "@http/about"
 
+
+interface VipItems {
+  id: number;
+  phase_name: string;
+  name: string;
+}
+interface VipObj {
+  name: string;
+  age: number;
+}
 interface State {
   vip: VipItems[];
   loadingBtn: string;
@@ -21,10 +31,14 @@ class AboutBundle extends Component<RouteProps, State> {
   }
 
   async getVip(): Promise<void> {
-    let data = await GetVip();
+    let data = await GetVip<VipItems, VipObj>();
     console.log(data);
 
     let vip = data.result.items;
+    let obj = data.result.obj;
+    console.log(obj.name);
+    console.log(obj.age);
+    // console.log(obj.ddd);
     vip.forEach(item => {
       console.log(item.name);
     });
@@ -44,10 +58,8 @@ class AboutBundle extends Component<RouteProps, State> {
 
     console.log(target);
     console.log(target.innerHTML);
+    console.log(target.innerText);
     console.log(target.getAttribute("data-type"));
-    for(let k in e.target){
-      console.log(k);
-    }
   }
 
   change(e: ChangeEvent<HTMLInputElement>): void {
