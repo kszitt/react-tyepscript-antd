@@ -20,7 +20,7 @@ export async function GetTask<T>() {
 }
 
 // 登录
-export async function Login<P>(params: P) {
+export async function Login(params) {
   let data = await axios.post<Code>('/startup/api/v1/login', params);
 
   return data.data;

@@ -45,13 +45,13 @@ class Home extends React.Component<RouteProps, State> {
       captcha: string;
       iphone?: number;
     }
-    let params = {
+    let params: Params = {
       email: "hanxiaoyu@apluslabs.com",
       password: "apl123",
       captcha: this.captchaVal
     };
 
-    let data = await Login<Params>(params);
+    let data = await Login(params);
     console.log(data.code);
   }
 
