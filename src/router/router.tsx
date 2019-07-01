@@ -1,31 +1,44 @@
 import * as React from "react"
+import {Suspense, lazy, Component} from 'react'
 import {Router, Route, Switch, Redirect} from "react-router-dom";
 import {createBrowserHistory} from "history";
-import Component from "./component";
 import Config from "./config";
+import ComponentByUser from "./componentByUser"
 const history = createBrowserHistory();
+const Header = lazy(() => import("@components/header/header"));
+const Sidebar = lazy(() => import("@components/sidebar/sidebar"));
 
 
 
 
-class Routers extends React.Component {
+class Routers extends Component {
+  componentWillMount(): void {
+    // console.log("Routers");
+  }
+
   render(){
     return (
       <Router history={history}>
         <Route render={(props) =>
-          <Switch>
-            {
-              Config.map(item => (
-                <Route key={item.path}
-                       path={item.path}
-                       exact={!item.exact}
-                       component={() => (
-                         <Component component={item.component} routeProps={props}/>
-                       )}/>
-              ))
-            }
-            <Redirect to={{pathname: "/"}}/>
-          </Switch>
+          <Suspense fallback={null}>
+            <ComponentByUser Component={Header} props={{name: "header", ...props}}/>
+            <ComponentByUser Component={Sidebar} props={{name: "sidebar", ...props}}/>
+            <Switch>
+              {
+                Config.map(item => (
+                  <Route key={item.path}
+                         path={item.path}
+                         exact={!item.exact}
+                         component={
+                           props => (
+                             <item.component {...props}/>
+                           )
+                         }/>
+                ))
+              }
+              <Redirect to={{pathname: "/"}}/>
+            </Switch>
+          </Suspense>
         }/>
       </Router>
     )

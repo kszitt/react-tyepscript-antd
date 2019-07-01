@@ -1,22 +1,25 @@
-
+import {lazy, LazyExoticComponent} from 'react'
 
 interface Router {
   path: string;
-  component(): any;
+  component: LazyExoticComponent<any>;
   exact?: boolean;
 }
 
 
-// console.log(import("@components/home/home"));
 
 const Config: Router[] = [
   {
     path: "/",
-    component: () => import("@components/home/home"),
+    component: lazy(() => import("@components/home/home")),
   },
   {
     path: "/about",
-    component: () => import("@components/about/about"),
+    component: lazy(() => import("@components/about/about")),
+  },
+  {
+    path: "/login",
+    component: lazy(() => import("@components/login/login")),
   },
 ];
 

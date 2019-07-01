@@ -1,9 +1,10 @@
 import * as React from "react";
+import {connect} from 'react-redux'
 import { Component, ReactNode, MouseEvent, ChangeEvent } from 'react'
-import {message} from "antd"
-import {LoadingLine} from "@public/loading/loading"
+import {Button} from "antd"
 import {RouteProps} from "@public/interface";
 import {GetVip} from "@http/about"
+import {Code, Page} from "@http/index";
 
 
 interface VipItems {
@@ -27,23 +28,20 @@ class AboutBundle extends Component<RouteProps, State> {
   };
 
   componentWillMount(): void {
+    console.log("about", this.props.User);
     this.getVip();
   }
 
   async getVip(): Promise<void> {
-    let data = await GetVip<VipItems, VipObj>();
-    console.log(data);
+    interface Result extends Code {
+      result: Page & {items: VipItems[]}
+    }
 
-    let vip = data.result.items;
-    let obj = data.result.obj;
-    console.log(obj.name);
-    console.log(obj.age);
-    // console.log(obj.ddd);
-    vip.forEach(item => {
-      console.log(item.name);
-    });
+    let data = await GetVip<Result>();
+    if(data.code !== 200) return;
+
     this.setState({
-      vip
+      vip: data.result.items
     });
   }
 
@@ -53,32 +51,13 @@ class AboutBundle extends Component<RouteProps, State> {
      })
   }
 
-  click(e: MouseEvent<HTMLDivElement>): void {
-    let target = e.target;
-
-    console.log(target);
-    console.log(target.innerHTML);
-    console.log(target.innerText);
-    console.log(target.getAttribute("data-type"));
-  }
-
-  change(e: ChangeEvent<HTMLInputElement>): void {
-    let target = e.target;
-
-    console.log(target.value);
-  }
-
   render(): ReactNode {
-    let {vip, loadingBtn} = this.state;
+    let {vip} = this.state;
 
     return (
-      <h1 id="about">
-        <span>About</span>
-        <span onClick={() => {this.go()}}>go Home</span>
-        <div className="caption">
-          <p data-type="p" onClick={e => {this.click(e)}}>购买月卡</p>
-          <input type="text" onChange={e => {this.change(e)}}/>
-        </div>
+      <div id="about">
+        <h1>About组件</h1>
+        <Button onClick={() => {this.go()}}>跳转到首页</Button>
         <ul className="members">
           {
             vip.map((item, index) => (
@@ -88,9 +67,15 @@ class AboutBundle extends Component<RouteProps, State> {
             ))
           }
         </ul>
-      </h1>
+      </div>
     );
   }
 }
 
-export default AboutBundle;
+function mapStateToProps(state) {
+  return {
+    User: state.User
+  }
+}
+
+export default connect(mapStateToProps)(AboutBundle);

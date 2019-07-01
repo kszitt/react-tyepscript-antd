@@ -1,8 +1,10 @@
 import * as React from "react";
 import {connect} from 'react-redux'
+import {message, Button} from "antd"
 import {RouteProps} from "@public/interface";
-import {GetCaptcha, GetTask, Login} from "@http/home";
+import {GetTask, getUserData} from "@http/home";
 import {LoginIn} from "@store/actions/user"
+import {Code} from "@http/index";
 
 
 interface Template {
@@ -16,55 +18,43 @@ interface State {
 
 
 class Home extends React.Component<RouteProps, State> {
-  captchaVal: string = "";
-  page: number = 10;
   state = {
     captcha: "",
     template: []
   };
 
   componentWillMount(): void {
-    console.log(this.props);
-    LoginIn({name: "韩晓雨"})(this.props.dispatch);
-    setTimeout(() => {
-      console.log(this.props.User);
-      console.log(this.props.User.name);
-    }, 1000);
+    this.getUserData();
   }
 
-  go(): void {
-    this.props.history.push({
-      pathname: '/about',
-    })
-  }
-
-  async login(): Promise<void> {
-    interface Params {
-      email: string;
-      password: string;
-      captcha: string;
-      iphone?: number;
+  async getUserData(): Promise<void>{
+    interface Result extends Code {
+      result: {
+        email: string
+      };
     }
-    let params: Params = {
-      email: "hanxiaoyu@apluslabs.com",
-      password: "apl123",
-      captcha: this.captchaVal
-    };
 
-    let data = await Login(params);
-    console.log(data.code);
+    let data = await getUserData<Result>();
+    if(data.code === 200){
+      LoginIn({email: data.result.email})(this.props.dispatch);
+    } else {
+      message.error("没有登录");
+      this.go("/login")
+    }
   }
 
-  async getCaptcha(): Promise<void> {
-    let captcha = await GetCaptcha<string>();
-
-    this.setState({
-      captcha
+  go(pathname: string): void {
+    this.props.history.push({
+      pathname,
     })
   }
 
   async getTask(): Promise<void> {
-    let data = await GetTask<Template>();
+    interface Result extends Code {
+      result: Template[];
+    }
+
+    let data = await GetTask<Result>();
     if(data.code !== 200) return;
 
     let template = data.result;
@@ -76,16 +66,22 @@ class Home extends React.Component<RouteProps, State> {
   }
 
   render() {
-    let {captcha, template} = this.state;
+    let {template} = this.state;
 
     return (
-      <h1 id="home">
-        <p>Home</p>
-        <p onClick={() => {this.go()}}>go About</p>
-        <p onClick={() => {this.getCaptcha()}}>GetCaptcha <img src={captcha} alt=""/></p>
-        <p onClick={() => {this.getTask()}}>GetTask</p>
-        <input type="text" placeholder="登录验证码" onChange={(e) => {this.captchaVal = e.target.value}}/>
-        <p onClick={() => {this.login()}}>快去登录333</p>
+      <div id="home">
+        <h1>Home组件</h1>
+        <p>
+          <Button onClick={() => {this.go("/about")}}>
+            跳转到 About 组件
+          </Button>
+        </p>
+        <p>
+          <Button onClick={() => {this.getTask()}}>
+            获取数据
+          </Button>
+        </p>
+
 
         <ul>
           {
@@ -96,7 +92,7 @@ class Home extends React.Component<RouteProps, State> {
             ))
           }
         </ul>
-      </h1>
+      </div>
     );
   }
 }

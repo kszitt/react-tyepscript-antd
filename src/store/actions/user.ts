@@ -6,7 +6,7 @@ interface ActionFn {
   (obj: object | void): ((dispatch: Dispatch) => object)
 }
 export interface UserState {
-  name: string;
+  email: string;
 }
 
 
