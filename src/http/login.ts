@@ -10,15 +10,9 @@ export async function GetCaptcha<T>(){
 }
 
 // 登录
-function Post<T extends Code>(url: string, params: object) {
-  return new Promise<T>(((resolve, reject) => {
-    // setTimeout(() => {
-      resolve({code: 200})
-    // }, 100)
-  }));
-}
 export async function UserLogin<T>(params) {
-  let data = await Post<T>("url", params);
+  let data = await axios.post<T>('/startup/api/v1/login', params);
 
-  return data;
+  return data.data;
 }
+

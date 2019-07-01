@@ -39,6 +39,10 @@ class Login extends React.Component<RouteProps, State> {
       password: "password",
       captcha: this.captchaVal,
     };
+    if(!params.captcha){
+      message.error("请输入验证码");
+      return;
+    }
 
     let data = await UserLogin<Code>(params);
     if(data.code === 200){
