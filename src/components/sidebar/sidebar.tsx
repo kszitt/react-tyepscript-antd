@@ -2,13 +2,10 @@ import * as React from "react";
 import {RouteProps} from "@public/interface";
 
 
-interface Props extends RouteProps {
-  name: string;
-}
 
-class Sidebar extends React.Component<Props> {
+class Sidebar extends React.Component<RouteProps> {
   componentWillMount(): void {
-    console.log("Sidebar name is: ", this.props.name);
+
   }
 
   render() {

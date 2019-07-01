@@ -11,7 +11,7 @@ interface Props extends RouteProps {
 class ComponentByUser extends React.Component<Props> {
 
   componentWillMount(): void {
-    console.log("ComponentByUser");
+
   }
 
   render() {

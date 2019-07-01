@@ -2,13 +2,10 @@ import * as React from "react";
 import {RouteProps} from "@public/interface";
 
 
-interface Props extends RouteProps {
-  name: string;
-}
 
-class Header extends React.Component<Props> {
+class Header extends React.Component<RouteProps> {
   componentWillMount(): void {
-    console.log("Header name is: ", this.props);
+
   }
 
   render() {

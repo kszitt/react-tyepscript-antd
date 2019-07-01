@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "cross-env MODE=development webpack-dev-server",
     "prod": "cross-env MODE=production SERVER=true webpack-dev-server",
-    "build": "cross-env MODE=production webpack",
-    "build:test": "cross-env MODE=production TEST=true webpack"
+    "build": "cross-env MODE=production webpack"
   },
   "keywords": [],
   "author": "kszitt",

@@ -7,7 +7,7 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const ImageminPlugin = require("imagemin-webpack-plugin").default;
 const TerserJSPlugin = require("terser-webpack-plugin");
 const Config = require("./config");
-const {MODE, SERVER, TEST} = process.env;
+const {MODE, SERVER} = process.env;
 const IsDevelopment = MODE === "development";
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
@@ -179,7 +179,7 @@ const webpackConfig = {
 if(!IsDevelopment){
   if(!SERVER) webpackConfig.entry.build.splice(0, 2);
   webpackConfig.output.path = path.resolve(__dirname, "frontend");
-  webpackConfig.output.publicPath = SERVER ? "/" : (TEST ? "./" : "/frontend/");
+  webpackConfig.output.publicPath = SERVER ? "/" : "/frontend/";
   if(!SERVER) webpackConfig.plugins.splice(0, 1);
   webpackConfig.optimization = {
     minimizer: [

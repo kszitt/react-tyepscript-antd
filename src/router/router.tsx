@@ -21,8 +21,8 @@ class Routers extends Component {
       <Router history={history}>
         <Route render={(props) =>
           <Suspense fallback={null}>
-            <ComponentByUser Component={Header} props={{name: "header", ...props}}/>
-            <ComponentByUser Component={Sidebar} props={{name: "sidebar", ...props}}/>
+            <ComponentByUser Component={Header} props={{...props}}/>
+            <ComponentByUser Component={Sidebar} props={{...props}}/>
             <Switch>
               {
                 Config.map(item => (
