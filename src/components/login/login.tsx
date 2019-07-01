@@ -35,8 +35,8 @@ class Login extends React.Component<RouteProps, State> {
       iphone?: number;
     }
     let params: Params = {
-      email: "email",
-      password: "password",
+      email: "hanxiaoyu@apluslabs.com",
+      password: "apl123",
       captcha: this.captchaVal,
     };
     if(!params.captcha){
