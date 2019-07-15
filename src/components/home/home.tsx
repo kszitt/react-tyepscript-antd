@@ -4,7 +4,7 @@ import {message, Button} from "antd"
 import {RouteProps} from "@public/interface";
 import {GetTask, getUserData} from "@http/home";
 import {LoginIn} from "@store/actions/user"
-import {Code} from "@http/index";
+import {Http} from "@http/index";
 
 
 interface Template {
@@ -28,7 +28,7 @@ class Home extends React.Component<RouteProps, State> {
   }
 
   async getUserData(): Promise<void>{
-    interface Result extends Code {
+    interface Result extends Http {
       result: {
         email: string
       };
@@ -50,7 +50,7 @@ class Home extends React.Component<RouteProps, State> {
   }
 
   async getTask(): Promise<void> {
-    interface Result extends Code {
+    interface Result extends Http {
       result: Template[];
     }
 

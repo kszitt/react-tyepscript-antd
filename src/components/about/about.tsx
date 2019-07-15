@@ -4,7 +4,7 @@ import { Component, ReactNode, MouseEvent, ChangeEvent } from 'react'
 import {Button} from "antd"
 import {RouteProps} from "@public/interface";
 import {GetVip} from "@http/about"
-import {Code, Page} from "@http/index";
+import {Http, Page} from "@http/index";
 
 
 interface VipItems {
@@ -33,7 +33,7 @@ class AboutBundle extends Component<RouteProps, State> {
   }
 
   async getVip(): Promise<void> {
-    interface Result extends Code {
+    interface Result extends Http {
       result: Page & {items: VipItems[]}
     }
 

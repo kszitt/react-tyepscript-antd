@@ -21,6 +21,10 @@ const Config: Router[] = [
     path: "/login",
     component: lazy(() => import("@components/login/login")),
   },
+  {
+    path: "/python",
+    component: lazy(() => import("@components/python/python")),
+  },
 ];
 
 export default Config;

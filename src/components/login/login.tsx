@@ -2,7 +2,7 @@ import * as React from "react";
 import {message, Input, Button} from "antd"
 import {RouteProps} from "@public/interface";
 import {GetCaptcha, UserLogin} from "@http/login"
-import {Code} from "@http/index";
+import {Http} from "@http/index";
 
 
 interface State {
@@ -44,7 +44,7 @@ class Login extends React.Component<RouteProps, State> {
       return;
     }
 
-    let data = await UserLogin<Code>(params);
+    let data = await UserLogin<Http>(params);
     if(data.code === 200){
       message.success("登录成功");
       this.go("/")

@@ -29,6 +29,7 @@ export interface Page {
   per_page: number;
   total: number;
 }
-export interface Code {
+export interface Http {
   code: number;
+  message?: string;
 }

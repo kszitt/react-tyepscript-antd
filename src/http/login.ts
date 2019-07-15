@@ -1,5 +1,5 @@
 import axios from "axios";
-import {Code} from "@http/index";
+import {Http} from "@http/index";
 
 
 
