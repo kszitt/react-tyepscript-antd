@@ -4,14 +4,14 @@ import {RouteProps} from "@public/interface";
 
 
 class Header extends React.Component<RouteProps> {
-  componentWillMount(): void {
+  UNSAFE_componentWillMount(): void {
 
   }
 
   render() {
 
     return (
-      <span id="Header">
+      <span id="header">
         <b>Header组件</b>
       </span>
     );

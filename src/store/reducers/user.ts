@@ -1,20 +1,16 @@
-import {Action} from "../index"
+import {Action} from "@store/index"
 const InitState: object = {};
 
 
 
-export default function user(state=InitState, action: Action) {
+export default function USER(state=InitState, action: Action) {
 
   let obj = JSON.parse(JSON.stringify(action));
   delete obj.type;
 
   switch (action.type) {
-    // 用户登录
-    case 'LOGIN_IN':
-      return obj;
-
-    // 用户退出
-    case 'SIGN_OUT':
+    // 清空数据
+    case 'CLEAR_USER':
       return {};
 
     // 更新数据

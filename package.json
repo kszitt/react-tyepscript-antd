@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env MODE=development webpack-dev-server",
+    "dev": "webpack-dev-server",
     "prod": "cross-env MODE=production SERVER=true webpack-dev-server",
     "build": "cross-env MODE=production webpack"
   },

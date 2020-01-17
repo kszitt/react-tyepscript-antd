@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {message, Button} from "antd"
 import {RouteProps} from "@public/interface";
 import {GetTask, getUserData} from "@http/home";
-import {LoginIn} from "@store/actions/user"
+import {UpdateUSER, ClearUSER} from "@store/actions/user"
 import {Http} from "@http/index";
 
 
@@ -23,8 +23,8 @@ class Home extends React.Component<RouteProps, State> {
     template: []
   };
 
-  componentWillMount(): void {
-    this.getUserData();
+  UNSAFE_componentWillMount(): void {
+    // this.getUserData();
   }
 
   async getUserData(): Promise<void>{
@@ -36,7 +36,7 @@ class Home extends React.Component<RouteProps, State> {
 
     let data = await getUserData<Result>();
     if(data.code === 200){
-      LoginIn({email: data.result.email})(this.props.dispatch);
+      UpdateUSER({email: data.result.email});
     } else {
       message.error("没有登录");
       this.go("/login")
@@ -71,27 +71,6 @@ class Home extends React.Component<RouteProps, State> {
     return (
       <div id="home">
         <h1>Home组件</h1>
-        <p>
-          <Button onClick={() => {this.go("/about")}}>
-            跳转到 About 组件
-          </Button>
-        </p>
-        <p>
-          <Button onClick={() => {this.getTask()}}>
-            获取数据
-          </Button>
-        </p>
-
-
-        <ul>
-          {
-            template.map((item) => (
-              <li key={item.id}>
-                {item.value}
-              </li>
-            ))
-          }
-        </ul>
       </div>
     );
   }
@@ -99,8 +78,22 @@ class Home extends React.Component<RouteProps, State> {
 
 function mapStateToProps(state) {
   return {
-    User: state.User
+    USER: state.USER
   }
 }
 
-export default connect(mapStateToProps)(Home);
+function mapDispatchToProps(dispatch) {
+  return {
+    // 更新数据
+    UpdateUSER: (obj) => {
+      dispatch(UpdateUSER(obj));
+    },
+
+    // 清空数据
+    ClearUSER: () => {
+      dispatch(ClearUSER());
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

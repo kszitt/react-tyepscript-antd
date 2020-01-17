@@ -8,7 +8,7 @@ const ImageminPlugin = require("imagemin-webpack-plugin").default;
 const TerserJSPlugin = require("terser-webpack-plugin");
 const Config = require("./config");
 const {MODE, SERVER} = process.env;
-const IsDevelopment = MODE === "development";
+const IsDevelopment = MODE !== "production";
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 
@@ -41,20 +41,17 @@ const LessLoader = {
 
 
 const webpackConfig = {
-  entry: {
-    build: [
-      "webpack/hot/only-dev-server",
-      `webpack-dev-server/client?http://${Config.ip}:${Config.port}`,
-      path.resolve(__dirname, "./src/index.tsx"),
-    ]
-  },
+  entry: [
+    path.resolve(__dirname, "./src/index.tsx"),
+  ],
   output: {
-    path: __dirname,
-    filename: "static/js/[name].[hash:8].js",
+    path: IsDevelopment ? __dirname : path.resolve(__dirname, "frontend"),
+    filename: "static/js/build.[hash:8].js",
     chunkFilename: "static/js/[name].[hash:8].js",
-    publicPath: "/"
+    publicPath: IsDevelopment ? "/" : (SERVER ? "/" : "/frontend/")
   },
   mode: MODE,
+  devtool: IsDevelopment ? "cheap-module-source-map" : "source-map",
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".json"],
     plugins: [
@@ -177,9 +174,6 @@ const webpackConfig = {
 };
 
 if(!IsDevelopment){
-  if(!SERVER) webpackConfig.entry.build.splice(0, 2);
-  webpackConfig.output.path = path.resolve(__dirname, "frontend");
-  webpackConfig.output.publicPath = SERVER ? "/" : "/frontend/";
   if(!SERVER) webpackConfig.plugins.splice(0, 1);
   webpackConfig.optimization = {
     minimizer: [

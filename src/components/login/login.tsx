@@ -1,7 +1,9 @@
 import * as React from "react";
+import {connect} from 'react-redux'
 import {message, Input, Button} from "antd"
 import {RouteProps} from "@public/interface";
 import {GetCaptcha, UserLogin} from "@http/login"
+import {UpdateUSER} from "@store/actions/user"
 import {Http} from "@http/index";
 
 
@@ -15,7 +17,7 @@ class Login extends React.Component<RouteProps, State> {
   };
   captchaVal:string = "";
 
-  componentWillMount(): void {
+  UNSAFE_componentWillMount(): void {
     this.getCaptcha();
   }
 
@@ -63,7 +65,7 @@ class Login extends React.Component<RouteProps, State> {
     let {captcha} = this.state;
 
     return (
-      <div id="Login">
+      <div id="login">
         <p>
           {
             captcha ?
@@ -85,4 +87,20 @@ class Login extends React.Component<RouteProps, State> {
   }
 }
 
-export default Login;
+function mapStateToProps(state) {
+  return {
+    USER: state.USER
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    // 更新数据
+    UpdateUSER: (obj) => {
+      dispatch(UpdateUSER(obj));
+    }
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
