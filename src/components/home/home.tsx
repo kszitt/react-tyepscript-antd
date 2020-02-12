@@ -70,7 +70,7 @@ class Home extends React.Component<RouteProps, State> {
 
     return (
       <div id="home">
-        <h1>Home组件</h1>
+        <h1>Home组件2222</h1>
       </div>
     );
   }

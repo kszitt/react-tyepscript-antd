@@ -31,13 +31,6 @@ const PostcssLoader = {
   }
 };
 
-const LessLoader = {
-  loader: "less-loader",
-  options: {
-    javascriptEnabled: true,
-    // modifyVars: <color> // antd 自定义主题颜色
-  }
-};
 
 
 const webpackConfig = {
@@ -45,10 +38,10 @@ const webpackConfig = {
     path.resolve(__dirname, "./src/index.tsx"),
   ],
   output: {
-    path: IsDevelopment ? __dirname : path.resolve(__dirname, "frontend"),
+    path: path.resolve(__dirname, "frontend"),
     filename: "static/js/build.[hash:8].js",
     chunkFilename: "static/js/[name].[hash:8].js",
-    publicPath: IsDevelopment ? "/" : (SERVER ? "/" : "/frontend/")
+    publicPath: "/"
   },
   mode: MODE,
   devtool: IsDevelopment ? "cheap-module-source-map" : "source-map",
@@ -100,7 +93,13 @@ const webpackConfig = {
           CssExtractLoader,
           "css-loader",
           PostcssLoader,
-          LessLoader
+          {
+            loader: "less-loader",
+            options: {
+              javascriptEnabled: true,
+              // modifyVars: <color> // antd 自定义主题颜色
+            }
+          }
         ]
       },
       {
@@ -124,9 +123,11 @@ const webpackConfig = {
     ]
   },
   devServer: {
+    contentBase: path.resolve(__dirname, 'frontend'),
     host: Config.ip,
     port: Config.port,
     historyApiFallback: true,
+    hot:true,
     stats: {
       colors: true
     },
@@ -140,10 +141,9 @@ const webpackConfig = {
     ))
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
-      filename: "static/css/style.[hash].css",
-      chunkFilename: "static/css/[id].[hash].css",
+      filename: `static/css/style${IsDevelopment ? "" : ".[hash:8]"}.css`,
+      chunkFilename: `static/css/[id]${IsDevelopment ? "" : ".[hash:8]"}.css`,
     }),
     new HtmlWebpackPlugin({
       filename: "index.html",
@@ -151,7 +151,7 @@ const webpackConfig = {
       inject: true,
       template: "index.html",
       react: `https://unpkg.com/react@16/umd/react.${IsDevelopment ? "development" : "production.min"}.js`,
-      reactDom: `https://unpkg.com/react-dom@16/umd/react-dom.${IsDevelopment ? "development" : "production.min"}.js`,
+      reactDom: `https://apl-static.oss-cn-beijing.aliyuncs.com/react-dom.${IsDevelopment ? "development" : "production.min"}.js`,
       minify:  IsDevelopment ? false : {
         removeComments: true,
         collapseWhitespace: true,
@@ -174,7 +174,7 @@ const webpackConfig = {
 };
 
 if(!IsDevelopment){
-  if(!SERVER) webpackConfig.plugins.splice(0, 1);
+  if(!SERVER) webpackConfig.entry.splice(0, 1);
   webpackConfig.optimization = {
     minimizer: [
       new TerserJSPlugin(),
