@@ -1,5 +1,4 @@
 import * as React from "react";
-import {connect} from 'react-redux'
 import {RouteProps} from "@public/interface";
 import {RouteMap, RouteMapProps} from "@router/router";
 import "./main.scss"
@@ -8,10 +7,17 @@ import "./main.scss"
 
 
 interface Props extends RouteMapProps, RouteProps{}
-class Main extends React.Component<Props> {
+interface State {}
+class Main extends React.Component<Props, State> {
+  state = {};
+  is_Mounted:boolean = true;
 
   UNSAFE_componentWillMount(): void {
 
+  }
+
+  componentWillUnmount(): void {
+    this.is_Mounted = false;
   }
 
   render() {
@@ -19,18 +25,15 @@ class Main extends React.Component<Props> {
 
     return (
       <div id="main">
-        main
-        <RouteMap routes={routes}
-                  redirect={true}/>
+        <p id="sidebar">sidebar</p>
+        <div id="mainBox">
+          <p id="header">header</p>
+          <RouteMap routes={routes}
+                    redirect={true}/>
+        </div>
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    User: state.User
-  }
-}
-
-export default connect(mapStateToProps)(Main);
+export default Main;

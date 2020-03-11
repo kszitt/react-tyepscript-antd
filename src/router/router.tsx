@@ -42,7 +42,7 @@ export class RouteMap extends React.Component<RouteMapProps> {
 }
 
 
-export class APP extends React.Component {
+class App extends React.Component {
   render(){
 
     return (
@@ -52,3 +52,5 @@ export class APP extends React.Component {
     )
   }
 }
+
+export default App;

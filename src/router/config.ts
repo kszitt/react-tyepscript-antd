@@ -2,6 +2,8 @@ import {lazy, LazyExoticComponent} from 'react'
 
 export interface RouteObj {
   path: string;
+  name: string;
+  icon?: string;
   component: LazyExoticComponent<any>;
   exact?: boolean;
 }
@@ -12,20 +14,25 @@ interface Routes extends RouteObj {
 
 const Config: Routes[] = [
   {
-    path: "/login",
-    component: lazy(() => import("@components/login/login")),
-  },{
-    path: "/404",
-    component: lazy(() => import("@components/404/404")),
-  },{
     path: "/",
+    name: "首页",
     component: lazy(() => import("@components/main/main")),
     routes: [
       {
         path: "/",
+        name: "首页",
+        icon: "icon-shouye",
         component: lazy(() => import("@components/home/home")),
       }
     ]
+  },{
+    path: "/login",
+    name: "登录",
+    component: lazy(() => import("@components/login/login")),
+  },{
+    path: "/404",
+    name: "404",
+    component: lazy(() => import("@components/404/404")),
   }
 ];
 

@@ -1,5 +1,16 @@
 import {Action} from "@store/index"
-const InitState: object = {};
+export interface USERState {
+  user_id: number;
+  name: string;
+  phone: string;
+  company_id: number;
+  job_title: string|null;
+  avatar_url: string|null;
+  active: boolean;
+  department: string;
+  has_password: boolean;
+}
+const InitState:(USERState|object) = {};
 
 
 

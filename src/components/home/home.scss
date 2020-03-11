@@ -1,0 +1,14 @@
+#home {
+  padding: 20px;
+  .main {
+    h2 {
+      font-size: 26px;
+      line-height: 52px;
+      text-align: center;
+    }
+    #chart-one {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}

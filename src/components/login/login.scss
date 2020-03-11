@@ -1,0 +1,249 @@
+#login {
+	color: #333;
+	height: 100%;
+    .logo {
+		width: 100%;
+		height: 11%;
+		display: flex;
+		align-items: center;
+		padding: 0 5vw;
+		.logoLeft{
+			display: flex;
+			align-items: flex-end;
+			.company{
+				font-size: 4vh;
+				font-weight: bold;
+				color: #3aa7ea;
+				margin-left: 30px;
+				margin-right: 20px;
+			}
+			.function{
+				font-size: 2.6vh;
+				margin-right: 10px;
+			}
+			.line{
+				font-size: 4vh;
+				margin-right: 10px;
+				color: #c6c6c6;
+			}
+			.tips{
+				font-size: 3vh;
+			}
+		}
+    }
+	.content{
+		width: 100%;
+		height: 71%;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		background-color: #3AA7EC;
+		position: relative;
+		padding: 0 5vw;
+		.back {
+			width: 50vw;
+			height: 100%;
+			position: absolute;
+			left: 5vw;
+			top: 0;
+			font-size: 24px;
+			color: white;
+			text-align: center;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			img {
+				width: 80%;
+				display: block;
+			}
+		}
+		.form {
+			position: relative;
+			width: 400px;
+			margin-right: 4.5vw;
+			padding: 40px;
+			background-color: #ffffff;
+			.loginType {
+				position: absolute;
+				right: 0;
+				top: 0;
+				.icon {
+					width: 60px;
+					height: 60px;
+					font-size: 60px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					overflow: hidden;
+					position: relative;
+					cursor: pointer;
+					.mask {
+						display: block;
+						width: 80px;
+						height: 80px;
+						background-color: white;
+						position: absolute;
+						left: 0;
+						top: 0;
+						transform: translate(-40px, 17px) rotateZ(-45deg);
+					}
+					.iconfont {
+						font-size: 30px;
+						margin-left: 10px;
+					}
+				}
+				.text {
+					position: absolute;
+					right: 70%;
+					top: 15px;
+					height: 30px;
+					background-color: #e6f9fc;
+					border: 1px solid #00c1de;
+					color: #00c1de;
+					padding: 0 10px;
+					line-height: 30px;
+					&.max {
+						width: 110px;
+					}
+					&.min {
+						width: 70px;
+					}
+					.poptip-arrow {
+						position: absolute;
+						z-index: 10;
+						top: 8px;
+						right: 0;
+						span, em {
+							position: absolute;
+							width: 0;
+							height: 0;
+							border-color: hsla(0,0%,100%,0);
+							border-style: solid;
+							overflow: hidden;
+						}
+						em {
+							top: 0;
+							left: 1px;
+							border-left-color: #00c1de;
+							border-width: 6px 0 6px 6px;
+						}
+						span {
+							border-left-color: #e6f9fc;
+							border-width: 6px 0 6px 6px;
+						}
+					}
+				}
+			}
+			h1 {
+				line-height: 60px;
+				font-size: 30px;
+				text-align: center;
+				margin-bottom: 20px;
+			}
+	
+			.list {
+				&:not(:last-child) {
+					margin-bottom: 20px;
+				}
+
+				&.captcha {
+					display: flex;
+					align-items: center;
+					.ant-input {
+						flex: 1;
+					}
+					.ant-btn {
+						margin-left: 20px;
+						margin-top: 0;
+					}
+					//position: relative;
+					/*.captchaImg {
+						position: absolute;
+						right: 0;
+						top: 0;
+						bottom: 0;
+						margin: auto 0;
+						height: 40px;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+	
+						.img {
+							height: 40px;
+							display: block;
+							cursor: pointer;
+						}
+					}*/
+				}
+				&.password {
+					display: flex;
+					align-items: center;
+					.ant-input {
+						flex: 1;
+					}
+					img {
+						height: 40px;
+						display: block;
+					}
+				}
+	
+				.ant-input {
+					height: 40px;
+					line-height: 40px;
+	
+					&:not(:first-child) {
+						padding-left: 40px;
+					}
+				}
+	
+				.ant-btn {
+					height: 40px;
+					margin-top: 40px;
+				}
+			}
+	
+			i {
+				font-size: 24px;
+			}
+		}
+	}
+    
+
+    .footer {
+		width: 100%;
+		height: 18%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 0 5vw;
+		.footerItem{
+			display: flex;
+			justify-content: space-between;
+			padding: 0 30px;
+			&:first-child .itemLeft img {
+				width: 24px;
+			}
+			.itemLeft{
+				width: 40px;
+				height: 40px;
+				border-radius: 40px;
+				background-color: #BFE7FB;
+				margin-right: 14px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				img {
+					width: 30px;
+					display: block;
+				}
+			}
+			.itemRight{
+				p{
+					font-size: 12px;
+				}
+			}
+		}
+		
+	}
+}

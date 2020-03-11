@@ -2,9 +2,10 @@
   "compilerOptions": {
     "outDir": "./frontend/",
     "module": "commonjs",
-    "target": "ESNext",
+    "target": "ES2015",
     "baseUrl": "./src",
     "paths": {
+      "@assets/*": ["assets/*"],
       "@components/*": ["components/*"],
       "@public/*": ["public/*"],
       "@http/*": ["http/*"],

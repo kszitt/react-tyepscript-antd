@@ -1,0 +1,172 @@
+html, body {
+  height: 100%;
+  color: #999999;
+}
+#root {
+  font-size: 12px;
+  height: 100%;
+}
+
+html, body, p, ul, li, img, input, textarea, h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+}
+ul, li {
+  list-style: none;
+}
+
+// 超出隐藏
+.overflowText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+input, textarea {
+  border: none;
+  background: none;
+  outline: none;
+  border-radius: 6px;
+  font-size: 12px;
+  resize: none;
+  &::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #ccc;
+  }
+  &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #ccc;
+  }
+  &::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #ccc;
+  }
+  &:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #ccc;
+  }
+}
+
+.btn {
+  width: 100px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background-color: #16b8be;
+  border-radius: 4px;
+  font-size: 14px;
+  span {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  img {
+    height: 30px;
+    display: block;
+  }
+}
+
+.loading {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    height: 30px;
+    display: block;
+  }
+}
+.loadingLine {
+  height: 28px;
+  display: block;
+}
+.ant-table-wrapper {
+  .ant-spin-spinning {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.preview {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  .img {
+    max-width: 80%;
+    max-height: 80%;
+    display: block;
+  }
+  .close {
+    position: absolute;
+    right: 5%;
+    top: 2%;
+    font-size: 50px;
+    cursor: pointer;
+    color: white;
+  }
+}
+.ant-rate {
+  color: #b18257 !important;
+  .iconfont {
+    font-size: 22px;
+  }
+}
+
+#taskCreate {
+  overflow: auto;
+  padding: 20px;
+  .list {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    .left {
+      width: 100px;
+      line-height: 32px;
+      margin-right: 20px;
+      text-align: right;
+      position: relative;
+      &.require:after {
+        content: "*";
+        display: inline;
+        color: red;
+        position: absolute;
+        right: -10px;
+        top: 0;
+        bottom: 0;
+        margin: auto 0;
+        line-height: 32px;
+        font-size: 16px;
+      }
+    }
+    .right {
+      flex: 1;
+      .ant-checkbox-group {
+        display: flex;
+        flex-wrap: wrap;
+        label {
+          width: 120px;
+          display: block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          }
+        }
+    }
+  }
+  .submit {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
