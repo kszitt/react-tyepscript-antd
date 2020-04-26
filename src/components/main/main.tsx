@@ -25,9 +25,9 @@ class Main extends React.Component<Props, State> {
 
     return (
       <div id="main">
-        <p id="sidebar">sidebar</p>
+        {/*<p id="sidebar">sidebar</p>*/}
         <div id="mainBox">
-          <p id="header">header</p>
+          {/*<p id="header">header</p>*/}
           <RouteMap routes={routes}
                     redirect={true}/>
         </div>

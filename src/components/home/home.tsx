@@ -2,8 +2,9 @@ import * as React from "react";
 import {connect} from 'react-redux'
 import {RouteProps} from "@public/interface";
 import {UpdateUSER, ClearUSER} from "@store/actions/user"
+import {GetLogin, PostLogin} from "@http/home"
 import "./home.scss"
-import {Loading} from "@public/loading/loading";
+
 
 
 
@@ -13,7 +14,18 @@ class Home extends React.Component<RouteProps, State> {
   state = {};
 
   componentDidMount(): void {
+    this.getLogin();
+    // this.postLogin();
+  }
 
+  async getLogin(){
+    let data = await GetLogin();
+    console.log(data);
+  }
+
+  async postLogin(){
+    let data = await PostLogin();
+    console.log(data);
   }
 
   render() {
